@@ -1,0 +1,555 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mustapha Lawal - Projects</title>
+<script src="assets/js/tailwindcss.js"></script>
+<link href="assets/css/fonts.css" rel="stylesheet"/>
+<link href="assets/css/material-symbols.css" rel="stylesheet"/>
+
+
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#233143",
+                        "secondary-fixed": "#dae2fd",
+                        "surface-container-low": "#0d1c2d",
+                        "on-surface": "#d4e4fa",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-error": "#690005",
+                        "primary-fixed": "#e1e0ff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary": "#c0c1ff",
+                        "surface-tint": "#c0c1ff",
+                        "surface-container": "#122131",
+                        "surface-dim": "#051424",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c7c4d7",
+                        "on-primary-container": "#0d0096",
+                        "on-tertiary-fixed": "#301400",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "inverse-primary": "#494bd6",
+                        "tertiary-container": "#d97721",
+                        "surface-container-highest": "#273647",
+                        "surface-container-high": "#1c2b3c",
+                        "secondary-container": "#3f465c",
+                        "tertiary-fixed": "#ffdcc5",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "outline": "#908fa0",
+                        "on-secondary-container": "#adb4ce",
+                        "surface-variant": "#273647",
+                        "tertiary": "#ffb783",
+                        "inverse-surface": "#d4e4fa",
+                        "outline-variant": "#464554",
+                        "background": "#051424",
+                        "on-tertiary": "#4f2500",
+                        "on-tertiary-container": "#452000",
+                        "on-primary": "#1000a9",
+                        "on-secondary": "#283044",
+                        "on-primary-fixed": "#07006c",
+                        "on-background": "#d4e4fa",
+                        "surface": "#051424",
+                        "secondary": "#bec6e0",
+                        "surface-bright": "#2c3a4c",
+                        "primary-container": "#8083ff",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#131b2e",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#010f1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "section-gap": "96px",
+                        "container-max": "1200px",
+                        "unit": "8px",
+                        "component-padding": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Geist"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "mono-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "mono-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px -10px rgba(192, 193, 255, 0.1);
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(to bottom, rgba(144, 143, 160, 0.2), rgba(144, 143, 160, 0.05));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .project-card:hover::before {
+            background: linear-gradient(to bottom, rgba(192, 193, 255, 0.5), rgba(192, 193, 255, 0.1));
+        }
+
+        .filter-btn.active {
+            background-color: theme('colors.primary');
+            color: theme('colors.on-primary');
+            border-color: transparent;
+        }
+        
+        /* Ensure animations are smooth */
+        .project-item {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .project-item.hidden-item {
+            opacity: 0;
+            transform: scale(0.95);
+            position: absolute;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        /* CartivaMart Modal */
+        #cartivaModal { opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #cartivaModal.open { opacity: 1; visibility: visible; }
+        #cartivaModal .modal-panel { transform: scale(0.95); transition: transform 0.3s ease; }
+        #cartivaModal.open .modal-panel { transform: scale(1); }
+        .cartiva-thumb { transition: all 0.2s; }
+        .cartiva-thumb.active { ring: 2px solid theme('colors.primary'); border-color: theme('colors.primary'); }
+        /* Quiz Earn Modal */
+        #quizModal { opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #quizModal.open { opacity: 1; visibility: visible; }
+        #quizModal .modal-panel { transform: scale(0.95); transition: transform 0.3s ease; }
+        #quizModal.open .modal-panel { transform: scale(1); }
+        .quiz-thumb { transition: all 0.2s; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-background text-on-background">
+    <!-- TopNavBar - Unified with index.html -->
+    <header
+        class="bg-surface/70 dark:bg-surface/70 backdrop-blur-md fixed top-0 w-full border-b border-outline-variant/10 shadow-sm z-50 transition-all duration-300"
+        id="navbar">
+        <div class="flex justify-between items-center h-20 px-gutter max-w-container-max mx-auto z-50">
+            <a class="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-surface tracking-tight"
+                href="index.html">Mustapha Lawal</a>
+            <nav class="hidden md:flex gap-8">
+                <a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200"
+                    href="index.html">Home</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200"
+                    href="about.html">About</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200"
+                    href="index.html#skills">Skills</a>
+                <a class="font-label-caps text-label-caps text-primary dark:text-primary-fixed font-bold border-b-2 border-primary pb-1"
+                    href="project.html">Projects</a>
+                <a class="font-label-caps text-label-caps text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200"
+                    href="contact.html">Contact</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button aria-label="Toggle Dark Mode"
+                    class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+                    <span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+                </button>
+                <a class="hidden md:inline-flex bg-primary text-on-primary font-mono-sm text-mono-sm px-6 py-3 rounded hover:brightness-110 transition-all duration-200"
+                    href="contact.html">Let's Talk</a>
+            </div>
+        </div>
+    </header>
+<!-- Main Content -->
+<main class="flex-grow pt-[120px] pb-section-gap px-gutter max-w-container-max mx-auto w-full">
+<!-- Header -->
+<header class="mb-16">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-6">My Projects</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                A selection of my recent work spanning frontend development, full-stack applications, and business solutions. Built with modern web technologies and a focus on performance.
+            </p>
+</header>
+<!-- Filtering -->
+<div class="mb-12 flex flex-wrap gap-4" id="filter-container">
+<button class="filter-btn active px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="all">All</button>
+<button class="filter-btn px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="frontend">Frontend</button>
+<button class="filter-btn px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="django">Django</button>
+<button class="filter-btn px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="fullstack">Full Stack</button>
+<button class="filter-btn px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="ecommerce">E-commerce</button>
+<button class="filter-btn px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="business">Business</button>
+<button class="filter-btn px-4 py-2 rounded-full border border-outline/30 text-on-surface-variant font-mono-sm text-mono-sm hover:border-primary/50 transition-colors" data-filter="javascript">JavaScript</button>
+</div>
+<!-- Projects Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+<!-- BizFinder -->
+<article class="project-item project-card relative bg-surface-container-low rounded-xl overflow-hidden flex flex-col h-full" data-category="fullstack business django">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container-high">
+<img alt="BizFinder Project Screenshot" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5piIymyoBT3P7Z3dA2j8g8ejBN_CCKkW5kQBtYxg079gKJri_HA7FfkeQWa7RCzn54EpTt7XNvSD7urBxJHDi5shSX9rB60IJGxS_KInFIby2c2X6gaA1BvZPh1yNE2ke54ZiCiNPh73HXZP5JtX8HH4LJUgs0UGfb4uiqV127C2ZyPAG8kpPf5VHI9OATIX6X3F42em9CDUBTRVb54R7ZwwUUJi7ykZ7sjW6INHqCJ0dAfrrlg"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h2 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-2">BizFinder</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-grow">
+                        A modern business directory platform. Features advanced search, categorized listings, interactive maps, and a comprehensive merchant dashboard for managing profiles.
+                    </p>
+<div class="mb-6">
+<h3 class="text-xs font-semibold text-outline uppercase tracking-wider mb-2">Features</h3>
+<ul class="text-sm text-on-surface-variant space-y-1 list-disc list-inside">
+<li>Advanced Geo-Search</li>
+<li>Merchant Dashboard</li>
+<li>Review System</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2 mb-6 mt-auto">
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">Django</span>
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">Tailwind</span>
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">PostgreSQL</span>
+</div>
+<div class="flex items-center space-x-4 border-t border-outline/10 pt-4">
+<a class="flex items-center text-sm font-medium text-on-surface hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">code</span>
+                            GitHub
+                        </a>
+<a class="flex items-center text-sm font-medium text-primary hover:text-primary-fixed transition-colors ml-auto" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">open_in_new</span>
+                            Live Website
+                        </a>
+</div>
+</div>
+</article>
+<!-- CartivaMart -->
+<article class="project-item project-card relative bg-surface-container-low rounded-xl overflow-hidden flex flex-col h-full" data-category="ecommerce frontend javascript">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container-high">
+<img alt="CartivaMart Project Screenshot" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="assets/image/cartiva_mart/home_page.jpeg"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h2 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-2">CartivaMart</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-grow">
+                        Full-featured e-commerce platform with cart, wishlist, checkout, order tracking and admin-ready flows. Built for fast, mobile-first shopping experiences.
+                    </p>
+<div class="mb-6">
+<h3 class="text-xs font-semibold text-outline uppercase tracking-wider mb-2">Features</h3>
+<ul class="text-sm text-on-surface-variant space-y-1 list-disc list-inside">
+<li>Cart & Wishlist System</li>
+<li>Secure Checkout Flow</li>
+<li>Order Tracking & History</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2 mb-6 mt-auto">
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">Django</span>
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">Tailwind</span>
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">JavaScript</span>
+</div>
+<div class="flex items-center space-x-4 border-t border-outline/10 pt-4">
+<a class="flex items-center text-sm font-medium text-on-surface hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">code</span>
+                            GitHub
+                        </a>
+<button onclick="openCartivaModal(0)" class="flex items-center text-sm font-medium text-primary hover:text-primary-fixed transition-colors ml-auto">
+<span class="material-symbols-outlined mr-2 text-[18px]">open_in_new</span>
+                            Live Website
+                        </button>
+</div>
+</div>
+</article>
+<!-- Quiz Earn -->
+<article class="project-item project-card relative bg-surface-container-low rounded-xl overflow-hidden flex flex-col h-full" data-category="fullstack javascript">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container-high">
+<img alt="Quiz Earn Project Screenshot" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="assets/image/quiz_earn_moni/dashboard_page.jpeg"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h2 class="font-headline-lg text-[24px] font-semibold text-on-surface mb-2">Quiz Earn</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-grow">
+                        Gamified learning platform where users participate in live quizzes, earn points, and track their progress on leaderboards. Features real-time websocket connections.
+                    </p>
+<div class="mb-6">
+<h3 class="text-xs font-semibold text-outline uppercase tracking-wider mb-2">Features</h3>
+<ul class="text-sm text-on-surface-variant space-y-1 list-disc list-inside">
+<li>Real-time Websockets</li>
+<li>Live Leaderboards</li>
+<li>Virtual Wallet System</li>
+</ul>
+</div>
+<div class="flex flex-wrap gap-2 mb-6 mt-auto">
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">Node.js</span>
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">Socket.io</span>
+<span class="bg-primary/10 text-primary font-mono-sm text-[12px] px-2 py-1 rounded">MongoDB</span>
+</div>
+<div class="flex items-center space-x-4 border-t border-outline/10 pt-4">
+<a class="flex items-center text-sm font-medium text-on-surface hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-2 text-[18px]">code</span>
+                            GitHub
+                        </a>
+<button onclick="openQuizModal(0)" class="flex items-center text-sm font-medium text-primary hover:text-primary-fixed transition-colors ml-auto">
+<span class="material-symbols-outlined mr-2 text-[18px]">open_in_new</span>
+                            Live Website
+                        </button>
+</div>
+</div>
+</article>
+</div>
+
+<!-- Quiz Earn Image Popup Modal -->
+<div id="quizModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm" onclick="if(event.target===this) closeQuizModal()">
+  <div class="modal-panel relative w-full max-w-5xl max-h-[90vh] bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/20 shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant/10">
+      <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Quiz Earn - Live Preview</h3>
+      <button onclick="closeQuizModal()" class="w-9 h-9 rounded-full bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/20 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="flex-1 overflow-hidden flex flex-col md:flex-row">
+      <div class="flex-1 bg-surface-container-high relative flex items-center justify-center overflow-hidden p-4">
+        <img id="quizMainImage" src="assets/image/quiz_earn_moni/dashboard_page.jpeg" alt="Quiz Earn Preview" class="max-w-full max-h-[60vh] md:max-h-[70vh] object-contain rounded-lg shadow-lg"/>
+        <button onclick="prevQuizImage()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface-container-low/90 hover:bg-surface-container-low border border-outline-variant/20 flex items-center justify-center text-on-surface shadow-md transition-all" aria-label="Previous">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button onclick="nextQuizImage()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface-container-low/90 hover:bg-surface-container-low border border-outline-variant/20 flex items-center justify-center text-on-surface shadow-md transition-all" aria-label="Next">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-surface-container-low/90 backdrop-blur px-3 py-1 rounded-full text-xs font-mono-sm text-on-surface-variant border border-outline-variant/20">
+          <span id="quizCounter">1 / 7</span>
+        </div>
+      </div>
+      <div class="w-full md:w-48 bg-surface-container-low border-t md:border-t-0 md:border-l border-outline-variant/10 p-3 flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-32 md:max-h-[70vh]">
+        <button onclick="openQuizModal(0)" data-quiz-index="0" class="quiz-thumb active flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-primary"><img src="assets/image/quiz_earn_moni/dashboard_page.jpeg" class="w-full h-full object-cover" alt="Dashboard"/></button>
+        <button onclick="openQuizModal(1)" data-quiz-index="1" class="quiz-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/quiz_earn_moni/ongoing_quiz.png" class="w-full h-full object-cover" alt="Ongoing Quiz"/></button>
+        <button onclick="openQuizModal(2)" data-quiz-index="2" class="quiz-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/quiz_earn_moni/quiz_result.jpeg" class="w-full h-full object-cover" alt="Result"/></button>
+        <button onclick="openQuizModal(3)" data-quiz-index="3" class="quiz-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/quiz_earn_moni/leaderboard_page.jpeg" class="w-full h-full object-cover" alt="Leaderboard"/></button>
+        <button onclick="openQuizModal(4)" data-quiz-index="4" class="quiz-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/quiz_earn_moni/wallet_page.jpeg" class="w-full h-full object-cover" alt="Wallet"/></button>
+        <button onclick="openQuizModal(5)" data-quiz-index="5" class="quiz-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/quiz_earn_moni/stake_page.jpeg" class="w-full h-full object-cover" alt="Stake"/></button>
+        <button onclick="openQuizModal(6)" data-quiz-index="6" class="quiz-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/quiz_earn_moni/profile_page.jpeg" class="w-full h-full object-cover" alt="Profile"/></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CartivaMart Image Popup Modal -->
+<div id="cartivaModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm" onclick="if(event.target===this) closeCartivaModal()">
+  <div class="modal-panel relative w-full max-w-5xl max-h-[90vh] bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/20 shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant/10">
+      <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">CartivaMart - Live Preview</h3>
+      <button onclick="closeCartivaModal()" class="w-9 h-9 rounded-full bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/20 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="flex-1 overflow-hidden flex flex-col md:flex-row">
+      <div class="flex-1 bg-surface-container-high relative flex items-center justify-center overflow-hidden p-4">
+        <img id="cartivaMainImage" src="assets/image/cartiva_mart/home_page.jpeg" alt="CartivaMart Preview" class="max-w-full max-h-[60vh] md:max-h-[70vh] object-contain rounded-lg shadow-lg"/>
+        <button onclick="prevCartivaImage()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surfaceContainerLow bg-surface-container-low/90 hover:bg-surface-container-low border border-outline-variant/20 flex items-center justify-center text-on-surface shadow-md transition-all" aria-label="Previous">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button onclick="nextCartivaImage()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-surface-container-low/90 hover:bg-surface-container-low border border-outline-variant/20 flex items-center justify-center text-on-surface shadow-md transition-all" aria-label="Next">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-surface-container-low/90 backdrop-blur px-3 py-1 rounded-full text-xs font-mono-sm text-on-surface-variant border border-outline-variant/20">
+          <span id="cartivaCounter">1 / 12</span>
+        </div>
+      </div>
+      <div class="w-full md:w-48 bg-surface-container-low border-t md:border-t-0 md:border-l border-outline-variant/10 p-3 flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-32 md:max-h-[70vh]">
+        <button onclick="openCartivaModal(0)" data-index="0" class="cartiva-thumb active flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-primary"><img src="assets/image/cartiva_mart/home_page.jpeg" class="w-full h-full object-cover" alt="Home"/></button>
+        <button onclick="openCartivaModal(1)" data-index="1" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/product_details_page.jpeg" class="w-full h-full object-cover" alt="Product"/></button>
+        <button onclick="openCartivaModal(2)" data-index="2" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/cart_page.jpeg" class="w-full h-full object-cover" alt="Cart"/></button>
+        <button onclick="openCartivaModal(3)" data-index="3" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/wishlist_page.jpeg" class="w-full h-full object-cover" alt="Wishlist"/></button>
+        <button onclick="openCartivaModal(4)" data-index="4" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/checkout_page.jpeg" class="w-full h-full object-cover" alt="Checkout"/></button>
+        <button onclick="openCartivaModal(5)" data-index="5" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/address_page.jpeg" class="w-full h-full object-cover" alt="Address"/></button>
+        <button onclick="openCartivaModal(6)" data-index="6" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/order_confirm_page.jpeg" class="w-full h-full object-cover" alt="Confirm"/></button>
+        <button onclick="openCartivaModal(7)" data-index="7" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/order_history_page.jpeg" class="w-full h-full object-cover" alt="History"/></button>
+        <button onclick="openCartivaModal(8)" data-index="8" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/track_order_page.jpeg" class="w-full h-full object-cover" alt="Track"/></button>
+        <button onclick="openCartivaModal(9)" data-index="9" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/customer_review_rating_page.jpeg" class="w-full h-full object-cover" alt="Reviews"/></button>
+        <button onclick="openCartivaModal(10)" data-index="10" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/notification_page.jpeg" class="w-full h-full object-cover" alt="Notifications"/></button>
+        <button onclick="openCartivaModal(11)" data-index="11" class="cartiva-thumb flex-shrink-0 w-20 h-14 md:w-full md:h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-outline/30"><img src="assets/image/cartiva_mart/profile_page.jpeg" class="w-full h-full object-cover" alt="Profile"/></button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-gap bg-surface-container-low dark:bg-surface-container-lowest border-t border-outline-variant/10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-2">
+<div class="font-headline-lg text-headline-lg font-semibold text-on-surface dark:text-on-surface mb-4">
+                    Mustapha Lawal
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-6">
+                    Building robust, scalable, and elegant web solutions for modern businesses.
+                </p>
+<div class="font-body-md text-body-md text-on-surface-variant">
+                    Â© 2024 Mustapha Lawal. Built with precision.
+                </div>
+</div>
+<div class="col-span-1">
+<h4 class="font-bold text-on-surface mb-4">Links</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Navigation</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Services</a></li>
+<li><a class="font-body-md text-body-md text-primary transition-colors" href="#">Projects</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-bold text-on-surface mb-4">Legal</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a></li>
+<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projects = document.querySelectorAll('.project-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    projects.forEach(project => {
+                        const categories = project.getAttribute('data-category').split(' ');
+                        
+                        if (filterValue === 'all' || categories.includes(filterValue)) {
+                            project.classList.remove('hidden-item');
+                            // Small delay to allow display:block to apply before opacity transition
+                            setTimeout(() => {
+                                project.style.position = 'relative';
+                                project.style.visibility = 'visible';
+                            }, 10);
+                        } else {
+                            project.classList.add('hidden-item');
+                        }
+                    });
+                });
+            });
+        });
+
+        // CartivaMart Popup
+        const cartivaImages = [
+          "assets/image/cartiva_mart/home_page.jpeg",
+          "assets/image/cartiva_mart/product_details_page.jpeg",
+          "assets/image/cartiva_mart/cart_page.jpeg",
+          "assets/image/cartiva_mart/wishlist_page.jpeg",
+          "assets/image/cartiva_mart/checkout_page.jpeg",
+          "assets/image/cartiva_mart/address_page.jpeg",
+          "assets/image/cartiva_mart/order_confirm_page.jpeg",
+          "assets/image/cartiva_mart/order_history_page.jpeg",
+          "assets/image/cartiva_mart/track_order_page.jpeg",
+          "assets/image/cartiva_mart/customer_review_rating_page.jpeg",
+          "assets/image/cartiva_mart/notification_page.jpeg",
+          "assets/image/cartiva_mart/profile_page.jpeg"
+        ];
+        let currentCartivaIndex = 0;
+        function updateCartivaModal() {
+          document.getElementById('cartivaMainImage').src = cartivaImages[currentCartivaIndex];
+          document.getElementById('cartivaCounter').textContent = (currentCartivaIndex + 1) + ' / ' + cartivaImages.length;
+          document.querySelectorAll('.cartiva-thumb').forEach((el, i) => {
+            el.classList.toggle('border-primary', i === currentCartivaIndex);
+            el.classList.toggle('border-transparent', i !== currentCartivaIndex);
+          });
+        }
+        function openCartivaModal(index = 0) {
+          currentCartivaIndex = index;
+          updateCartivaModal();
+          document.getElementById('cartivaModal').classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeCartivaModal() {
+          document.getElementById('cartivaModal').classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        function nextCartivaImage() {
+          currentCartivaIndex = (currentCartivaIndex + 1) % cartivaImages.length;
+          updateCartivaModal();
+        }
+        function prevCartivaImage() {
+          currentCartivaIndex = (currentCartivaIndex - 1 + cartivaImages.length) % cartivaImages.length;
+          updateCartivaModal();
+        }
+        // Quiz Earn Popup
+        const quizImages = [
+          "assets/image/quiz_earn_moni/dashboard_page.jpeg",
+          "assets/image/quiz_earn_moni/ongoing_quiz.png",
+          "assets/image/quiz_earn_moni/quiz_result.jpeg",
+          "assets/image/quiz_earn_moni/leaderboard_page.jpeg",
+          "assets/image/quiz_earn_moni/wallet_page.jpeg",
+          "assets/image/quiz_earn_moni/stake_page.jpeg",
+          "assets/image/quiz_earn_moni/profile_page.jpeg"
+        ];
+        let currentQuizIndex = 0;
+        function updateQuizModal() {
+          document.getElementById('quizMainImage').src = quizImages[currentQuizIndex];
+          document.getElementById('quizCounter').textContent = (currentQuizIndex + 1) + ' / ' + quizImages.length;
+          document.querySelectorAll('.quiz-thumb').forEach((el, i) => {
+            el.classList.toggle('border-primary', i === currentQuizIndex);
+            el.classList.toggle('border-transparent', i !== currentQuizIndex);
+          });
+        }
+        function openQuizModal(index = 0) {
+          currentQuizIndex = index;
+          updateQuizModal();
+          document.getElementById('quizModal').classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeQuizModal() {
+          document.getElementById('quizModal').classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        function nextQuizImage() {
+          currentQuizIndex = (currentQuizIndex + 1) % quizImages.length;
+          updateQuizModal();
+        }
+        function prevQuizImage() {
+          currentQuizIndex = (currentQuizIndex - 1 + quizImages.length) % quizImages.length;
+          updateQuizModal();
+        }
+        document.addEventListener('keydown', (e) => {
+          const cartivaModal = document.getElementById('cartivaModal');
+          const quizModal = document.getElementById('quizModal');
+          if (cartivaModal.classList.contains('open')) {
+            if (e.key === 'Escape') closeCartivaModal();
+            if (e.key === 'ArrowRight') nextCartivaImage();
+            if (e.key === 'ArrowLeft') prevCartivaImage();
+          } else if (quizModal.classList.contains('open')) {
+            if (e.key === 'Escape') closeQuizModal();
+            if (e.key === 'ArrowRight') nextQuizImage();
+            if (e.key === 'ArrowLeft') prevQuizImage();
+          }
+        });
+    </script>
+</body></html>
