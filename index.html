@@ -12,6 +12,16 @@
 
 
 
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var isDark = saved ? saved === 'dark' : true;
+                if (isDark) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+            } catch (e) { document.documentElement.classList.add('dark'); }
+        })();
+    </script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -214,6 +224,29 @@
             .text-headline-xl { font-size: 24px !important; }
             .text-headline-lg { font-size: 22px !important; }
         }
+
+        /* Light Mode Overrides */
+        html:not(.dark) { color-scheme: light; }
+        html:not(.dark) body { background-color: #f8fafc !important; color: #0f172a !important; }
+        html:not(.dark) .bg-background { background-color: #f8fafc !important; }
+        html:not(.dark) .bg-surface { background-color: #ffffff !important; }
+        html:not(.dark) .bg-surface\/70 { background-color: rgba(255,255,255,0.8) !important; }
+        html:not(.dark) .dark\:bg-surface\/70 { background-color: rgba(255,255,255,0.8) !important; }
+        html:not(.dark) .bg-surface-container-low { background-color: #ffffff !important; }
+        html:not(.dark) .bg-surface-container { background-color: #f1f5f9 !important; }
+        html:not(.dark) .bg-surface-container-high { background-color: #f1f5f9 !important; }
+        html:not(.dark) .bg-surface-container-highest { background-color: #e2e8f0 !important; }
+        html:not(.dark) .bg-surface-container-lowest { background-color: #f8fafc !important; }
+        html:not(.dark) footer.bg-surface-container-low { background-color: #f1f5f9 !important; }
+        html:not(.dark) .text-on-surface { color: #0f172a !important; }
+        html:not(.dark) .text-on-background { color: #0f172a !important; }
+        html:not(.dark) .text-on-surface-variant { color: #475569 !important; }
+        html:not(.dark) .text-on-primary { color: #ffffff !important; }
+        html:not(.dark) #navbar { background: rgba(255,255,255,0.85) !important; border-color: #e2e8f0 !important; }
+        html:not(.dark) #mobileMenu { background: rgba(255,255,255,0.97) !important; border-color: #e2e8f0 !important; }
+        html:not(.dark) .glass-card { background: rgba(255,255,255,0.9) !important; border-color: #e2e8f0 !important; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        html:not(.dark) #quizModal, html:not(.dark) #cartivaModal { background: rgba(248,250,252,0.85) !important; }
+        html:not(.dark) .project-card { background: #ffffff !important; }
     </style>
 </head>
 
@@ -238,9 +271,9 @@
                     href="#contact">Contact</a>
             </nav>
             <div class="flex items-center gap-2 sm:gap-4">
-                <button aria-label="Toggle Dark Mode"
+                <button id="themeToggle" aria-label="Toggle Dark Mode"
                     class="text-on-surface-variant hover:text-primary transition-colors duration-200 p-1">
-                    <span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+                    <span id="themeIcon" class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
                 </button>
                 <a class="hidden md:inline-flex bg-primary text-on-primary font-mono-sm text-mono-sm px-6 py-3 rounded hover:brightness-110 transition-all duration-200"
                     href="contact.html">Let's Talk</a>
@@ -814,6 +847,22 @@
         if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileMenu);
         // Close on resize to desktop
         window.addEventListener('resize', () => { if (window.innerWidth >= 768) closeMobileMenu(); });
+
+        // Theme Toggle
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) { icon.textContent = isDark ? 'dark_mode' : 'light_mode'; icon.setAttribute('data-icon', isDark ? 'dark_mode' : 'light_mode'); }
+            const btn = document.getElementById('themeToggle');
+            if (btn) btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { }
+            updateThemeIcon(isDark);
+        }
+        updateThemeIcon(document.documentElement.classList.contains('dark'));
+        const themeBtnInit = document.getElementById('themeToggle');
+        if (themeBtnInit) themeBtnInit.addEventListener('click', toggleTheme);
 
         // CartivaMart Popup
         const cartivaImages = [
